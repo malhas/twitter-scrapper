@@ -51,9 +51,9 @@ def main():
     accounts_clean = pd.DataFrame(columns=accounts.columns)
 
     if len(exceptions) > 0:
-        for index, follower in accounts.iterrows():
-            if follower["screen_name"] not in exceptions:
-                accounts_clean.loc[len(accounts_clean.index)] = follower
+        accounts_clean = accounts[~accounts["screen_name"].isin(exceptions)]
+    else:
+        accounts_clean = accounts.copy()
 
     accounts_clean["x_link"] = accounts_clean["screen_name"].apply(lambda x: f"https://x.com/{x}")
 
